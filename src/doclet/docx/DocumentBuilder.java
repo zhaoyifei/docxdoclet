@@ -108,9 +108,9 @@ public class DocumentBuilder {
 		XWPFRun run;
 
 		// 日付を取得
-		Locale locale = new Locale("ja", "JP", "JP");
+		Locale locale = new Locale("cn", "CN", "CN");
 		Calendar cal = Calendar.getInstance(locale);
-		DateFormat jformat = new SimpleDateFormat("GGGGy年M月d日", locale);
+		DateFormat jformat = new SimpleDateFormat("yyyy-MM-dd", locale);
 		String stamp = jformat.format(cal.getTime());
 
 		// 表紙の情報を出力
@@ -156,7 +156,7 @@ public class DocumentBuilder {
 		XWPFParagraph paragraph = new XWPFParagraph(ctp, word);
 		XWPFRun run = paragraph.createRun();
 		run.setText(str);
-		run.setFontFamily("Meiryo UI");
+		run.setFontFamily("宋体");
 		run.setFontSize(8);
 		if (isHeader) {
 			paragraph.setAlignment(ParagraphAlignment.LEFT);
@@ -254,9 +254,9 @@ public class DocumentBuilder {
 				// 改ページ
 				newPage();
 
-				// パッケージ名
+				// package名
 				run = DocumentStyle.setChapterTitleParagraph(word.createParagraph(), 0);
-				print(run, packageDoc.name() + " パッケージ");
+				print(run, packageDoc.name() + " package");
 
 				// パッケージ説明
 				str = packageDoc.commentText();
@@ -275,11 +275,11 @@ public class DocumentBuilder {
 
 			// パッケージ名
 			run = DocumentStyle.getDefaultRun(word.createParagraph(), 0);
-			print(run, classDoc.containingPackage().name() + " パッケージ");
+			print(run, classDoc.containingPackage().name() + " package");
 
 			// クラス
 			run = DocumentStyle.setChapterTitleParagraph(word.createParagraph(), 100);
-			print(run, classDoc.name() + " クラス");
+			print(run, classDoc.name() + " class");
 
 			// 継承階層
 			List<ClassDoc> classDocs = new ArrayList<ClassDoc>();
@@ -309,7 +309,7 @@ public class DocumentBuilder {
 			// インターフェイス
 			if (0 < classDoc.interfaces().length) {
 				run = DocumentStyle.setSectionParagraph(word.createParagraph(), 100);
-				print(run, "すべての実装されたインタフェース:");
+				print(run, "All Implemented Interfaces:");
 				str = "";
 				for (int i = 0; i < classDoc.interfaces().length; i++) {
 					if (0 < i) {
@@ -331,7 +331,7 @@ public class DocumentBuilder {
 			Tag[] versionTags = classDoc.tags("version");
 			if (0 < versionTags.length) {
 				run = DocumentStyle.setSectionParagraph(word.createParagraph(), 100);
-				print(run, "バージョン:");
+				print(run, "version:");
 				run = DocumentStyle.getDefaultRun(word.createParagraph(), 200);
 				for (int i = 0; i < versionTags.length; i++) {
 					if (0 < i) {
@@ -345,7 +345,7 @@ public class DocumentBuilder {
 			Tag[] authorTags = classDoc.tags("author");
 			if (0 < authorTags.length) {
 				run = DocumentStyle.setSectionParagraph(word.createParagraph(), 100);
-				print(run, "作成者:");
+				print(run, "author:");
 				run = DocumentStyle.getDefaultRun(word.createParagraph(), 200);
 				for (int i = 0; i < authorTags.length; i++) {
 					if (0 < i) {
@@ -358,7 +358,7 @@ public class DocumentBuilder {
 			// 全ての定数
 			if (0 < classDoc.enumConstants().length) {
 				run = DocumentStyle.setTitleParagraph(word.createParagraph(), 100);
-				print(run, "定数の詳細");
+				print(run, "Constants");
 				for (int i = 0; i < classDoc.enumConstants().length; i++) {
 					if (0 < i) {
 						DocumentStyle.setSeparatorParagraph(word.createParagraph());
@@ -370,7 +370,7 @@ public class DocumentBuilder {
 			// 全てのフィールド
 			if (0 < classDoc.fields().length) {
 				run = DocumentStyle.setTitleParagraph(word.createParagraph(), 100);
-				print(run, "フィールドの詳細");
+				print(run, "Field");
 				for (int i = 0; i < classDoc.fields().length; i++) {
 					if (0 < i) {
 						DocumentStyle.setSeparatorParagraph(word.createParagraph());
@@ -382,7 +382,7 @@ public class DocumentBuilder {
 			// 全てのコンストラクタ
 			if (0 < classDoc.constructors().length) {
 				run = DocumentStyle.setTitleParagraph(word.createParagraph(), 100);
-				print(run, "コンストラクタの詳細");
+				print(run, "Constructor");
 				for (int i = 0; i < classDoc.constructors().length; i++) {
 					if (0 < i) {
 						DocumentStyle.setSeparatorParagraph(word.createParagraph());
@@ -394,7 +394,7 @@ public class DocumentBuilder {
 			// 全てのメソッド
 			if (0 < classDoc.methods().length) {
 				run = DocumentStyle.setTitleParagraph(word.createParagraph(), 100);
-				print(run, "メソッドの詳細");
+				print(run, "Method");
 				for (int i = 0; i < classDoc.methods().length; i++) {
 					if (0 < i) {
 						DocumentStyle.setSeparatorParagraph(word.createParagraph());
@@ -416,11 +416,11 @@ public class DocumentBuilder {
 		// 種類名
 		String fieldType;
 		if (doc.isEnumConstant()) {
-			fieldType = "列挙型定数";
+			fieldType = "Enum constant";
 		} else if (doc.isEnum()) {
-			fieldType = "列挙型";
+			fieldType = "Enum";
 		} else {
-			fieldType = "フィールド";
+			fieldType = "Field";
 		}
 
 		// フィールド情報
@@ -447,11 +447,11 @@ public class DocumentBuilder {
 		// 種類名
 		String memberType;
 		if (doc.isConstructor()) {
-			memberType = "コンストラクタ";
+			memberType = "Constructor";
 		} else if (doc.isMethod()) {
-			memberType = "メソッド";
+			memberType = "Method";
 		} else {
-			memberType = "メンバ";
+			memberType = "Member";
 		}
 
 		// メソッド情報
@@ -476,7 +476,7 @@ public class DocumentBuilder {
 		Parameter[] parameters = doc.parameters();
 		if (0 < parameters.length) {
 			run = DocumentStyle.setSectionParagraph(word.createParagraph(), 100);
-			print(run, "パラメータ:");
+			print(run, "Parameter:");
 			for (int i = 0; i < parameters.length; i++) {
 				str = String.format("%d) ", i + 1) + parameters[i].name();
 				String comment = getParamComment(doc.paramTags(), parameters[i].name());
@@ -493,7 +493,7 @@ public class DocumentBuilder {
 			MethodDoc method = (MethodDoc) doc;
 			if (!method.returnType().simpleTypeName().equals("void")) {
 				run = DocumentStyle.setSectionParagraph(word.createParagraph(), 100);
-				print(run, "戻り値:");
+				print(run, "Return value:");
 				str = method.returnType().simpleTypeName();
 				Tag[] tags = method.tags("return");
 				if (0 < tags.length) {
@@ -511,7 +511,7 @@ public class DocumentBuilder {
 		Type[] exceptions = doc.thrownExceptionTypes();
 		if (0 < exceptions.length) {
 			run = DocumentStyle.setSectionParagraph(word.createParagraph(), 100);
-			print(run, "例外:");
+			print(run, "Exception:");
 			for (int i = 0; i < exceptions.length; i++) {
 				str = exceptions[i].simpleTypeName();
 				String comment = getThrowsComment(doc.throwsTags(), exceptions[i].typeName());
@@ -584,7 +584,7 @@ public class DocumentBuilder {
 					// Javadocインラインタグ付き文字として出力
 					if (!value.isEmpty()) {
 						XWPFRun runTaggedString = DocumentStyle.getDefaultRun(word.getLastParagraph(), -1);
-						runTaggedString.setFontFamily(Options.getOption("font2", "Consolas"));
+						runTaggedString.setFontFamily(Options.getOption("font2", "宋体"));
 						runTaggedString.setText(value);
 						run = DocumentStyle.getDefaultRun(word.getLastParagraph(), -1);
 					}

@@ -1,0 +1,6 @@
+work
+work/*
+bin
+bin/*
+*.iml
+*.jar
